@@ -8,15 +8,11 @@
       </form>
 
       <h2>Directory contents</h2>
-      <title>Path: {{ fileTree.name }}</title>
-      <h3>{{ fileTree.name }}</h3>
+      <title>Path: {{ fileSystemLevel.path }}</title>
+      <h3>{{ fileSystemLevel.path }}</h3>
       <ul>
-      {%- for item in fileTree.children recursive %}
-         <li><a href="download/{{ item.name }}">{{ item.name }}
-            {%- if item.children -%}
-               <ul>{{ loop(item.children) }}</ul>
-            {%- endif %}
-         </li>
+      {%- for item in fileSystemLevel.fileList %}
+         <li><a href="{{ item.link }}">{{ item.name }}</li>
       {%- endfor %}
       </ul>
    </body>
