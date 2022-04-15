@@ -3,16 +3,22 @@
       <h1>Simple file manager</h1>
       <form action = "http://localhost:5000/upload" method = "POST" 
          enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
+         <input type = "file" name = "file"/>
          <input type = "submit"/>
       </form>
 
-      <h2>Directory contents</h2>
+      <h2>Listing directory: {{ fileSystemLevel.path }}</h2>
       <title>Path: {{ fileSystemLevel.path }}</title>
-      <h3>{{ fileSystemLevel.path }}</h3>
+      <h3>Directories</h3>
+      <ul>
+      {%- for item in fileSystemLevel.dirList %}
+         <li><a href="{{ item.link }}">{{ item.name }}</a></li>
+      {%- endfor %}
+      </ul>
+      <h3>Files</h3>
       <ul>
       {%- for item in fileSystemLevel.fileList %}
-         <li><a href="{{ item.link }}">{{ item.name }}</li>
+         <li><a href="{{ item.link }}">{{ item.name }}</a></li>
       {%- endfor %}
       </ul>
    </body>

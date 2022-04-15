@@ -5,18 +5,19 @@ app = Flask(__name__)
 gUploadsDir = "uploads"
 
 class FileSystemLevel():
-    def __init__(self, path, fileList):
-        self.path = path
-        self.fileList = fileList
+   def __init__(self, path, dirList, fileList):
+      self.path = path
+      self.dirList = dirList
+      self.fileList = fileList
 
 class FileSystemNode():
-   def __init__(self, name, link, isDir):
+   def __init__(self, name, link):
       self.name = name
       self.link = link
-      self.isDir = isDir
 
 def GenerateFileLevel(path):
    fullPath = os.path.join(gUploadsDir, path)
+   dirList = []
    fileList = []
    try: files = os.listdir(fullPath)
    except OSError:
@@ -26,10 +27,10 @@ def GenerateFileLevel(path):
          entry = os.path.join(fullPath, name)
          relativeEntry = os.path.join(path, name)
          if os.path.isdir(entry):
-            fileList.append(FileSystemNode(name, f"{name}/", True))
+            dirList.append(FileSystemNode(name, f"{name}/"))
          else:
-            fileList.append(FileSystemNode(name, f"/download/{relativeEntry}", False))
-   return FileSystemLevel(path, fileList)
+            fileList.append(FileSystemNode(name, f"/download/{relativeEntry}"))
+   return FileSystemLevel(path, dirList, fileList)
 
 def RenderPage(path = ""):
    return render_template('files.html', fileSystemLevel=GenerateFileLevel(path))
