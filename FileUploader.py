@@ -3,6 +3,7 @@ from flask import Flask, request, render_template, send_from_directory
 app = Flask(__name__)
 
 gUploadsDir = "uploads"
+gCredentials = {"john@uploader.com" : "password"}
 
 class FileSystemLevel():
    def __init__(self, path, dirList, fileList):
@@ -35,6 +36,13 @@ def GenerateFileLevel(path):
 def RenderPage(path = ""):
    return render_template('files.html', fileSystemLevel=GenerateFileLevel(path))
 
+def Authorize(login, password):
+   if login not in gCredentials.keys():
+      return False
+   if gCredentials[login] != password:
+      return False
+   return True
+
 @app.route('/')
 def render_main_page():
    return RenderPage()
@@ -46,8 +54,11 @@ def render_child_page(directory):
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
-      f = request.files['file']
-      f.save(gUploadsDir + "/" + f.filename)
+      if not Authorize(request.form.get("login", ""), request.form.get("password", "")):
+         return "Invalid credentials!"
+
+      file = request.files['file']
+      file.save(os.path.join(gUploadsDir, file.filename))
       return 'File was uploaded successfully!'
 
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])

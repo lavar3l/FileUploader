@@ -3,6 +3,10 @@
       <h1>Simple file manager</h1>
       <form action = "http://localhost:5000/upload" method = "POST" 
          enctype = "multipart/form-data">
+         <label for="fname">Login:</label>
+         <input type = "email" name = "login"/>
+         <label for="fname">Password:</label>
+         <input type = "password" name = "password"/>
          <input type = "file" name = "file"/>
          <input type = "submit"/>
       </form>
