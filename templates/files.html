@@ -12,8 +12,8 @@
       <h3>{{ fileTree.name }}</h3>
       <ul>
       {%- for item in fileTree.children recursive %}
-         <li>{{ item.name }}
-            {%- if item.child -%}
+         <li><a href="download/{{ item.name }}">{{ item.name }}
+            {%- if item.children -%}
                <ul>{{ loop(item.children) }}</ul>
             {%- endif %}
          </li>
