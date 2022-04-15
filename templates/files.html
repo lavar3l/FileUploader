@@ -1,10 +1,23 @@
 <html>
    <body>
       <h1>Simple file manager</h1>
-      <form action = "http://localhost:5000/uploader" method = "POST" 
+      <form action = "http://localhost:5000/upload" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
          <input type = "submit"/>
       </form>
+
+      <h2>Directory contents</h2>
+      <title>Path: {{ fileTree.name }}</title>
+      <h3>{{ fileTree.name }}</h3>
+      <ul>
+      {%- for item in fileTree.children recursive %}
+         <li>{{ item.name }}
+            {%- if item.child -%}
+               <ul>{{ loop(item.children) }}</ul>
+            {%- endif %}
+         </li>
+      {%- endfor %}
+      </ul>
    </body>
 </html>
