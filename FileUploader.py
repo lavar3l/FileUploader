@@ -3,11 +3,13 @@ from flask import Flask, request, render_template, send_from_directory
 app = Flask(__name__)
 
 gUploadsDir = "uploads"
-gCredentials = {"john@uploader.com" : "password"}
+gCredentials = {"john@uploader.com" : "password", 
+                "student@linsw.pw" : "linsw2022"}
 
 class FileSystemLevel():
    def __init__(self, path, dirList, fileList):
       self.path = path
+      self.parentPath = os.path.join(self.path, os.pardir)
       self.dirList = dirList
       self.fileList = fileList
 
