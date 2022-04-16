@@ -58,7 +58,8 @@ def upload_file():
          return "Invalid credentials!"
 
       file = request.files['file']
-      file.save(os.path.join(gUploadsDir, file.filename))
+      file.save(os.path.join(gUploadsDir, request.form.get("path", ""), file.filename))
+
       return 'File was uploaded successfully!'
 
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])
